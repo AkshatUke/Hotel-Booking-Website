@@ -1,28 +1,57 @@
+:root{
+    --pink: #fe424d;
+}
+.brightmd {
+    --bg: #ffffff;
+    --text: #282828;
+    --sec: #ffffff;
+}
+.darkmd{
+    --bg: #282828;
+    --text: #ffffff;
+    --sec: #31363F;
+}
+.dark {
+    border: none;
+    color: var(--text) !important;
+    background-color: transparent;
+}
+.mart {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
 body {
+    background-color: var(--bg) !important;
     font-family: "Plus Jakarta Sans", sans-serif !important;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
+.bg {
+    background-color: var(--bg) !important;
+}
+.secbg {
+    background-color: var(--sec) !important;
+}
+.navbtn {
+    background-color: #ffffff !important;
+}
+.texts {
+    color: var(--text) !important;
+}
 .container {
     flex: 1;
 }
 /* navbar */
-.navbar {
-    background-color: white;
-}
 .fa-compass {
-    color: #fe424d;
+    color: var(--pink);
     font-size: 2rem;
-}
-.nav-link {
-    color: #222222 !important;
 }
 
 /* footer */
 .f-info-links a {
     text-decoration: none;
-    color: #222222;
+    color: var(--text);
 }
 .f-info-links a:hover {
     text-decoration: underline;
@@ -59,6 +88,7 @@ body {
 }
 .card-body {
     padding: 0 !important;
+    background-color: var(--bg) !important;
 }
 .card-text p {
     font-weight: 400;
@@ -73,17 +103,21 @@ body {
 }
 .card-img-overlay:hover {
     opacity: 0.2;
-    background-color: white;
+    background-color: var(--bg);
 }
 
 .add-btn {
-    background-color: #fe424d !important;
+    background-color: var(--pink) !important;
     border: none !important;
+}
+.del-btn {
+    background-color: var(--text) !important;
+    color: var(--bg) !important;
 }
 
 /* Edit Page */
 .edit-btn {
-    background-color: #fe424d !important;
+    background-color: var(--pink) !important;
     border: none !important;
 }
 
@@ -101,4 +135,21 @@ body {
 }
 .show-info {
     margin-top: 5px;
+}
+/* New Page */
+input::placeholder {
+    color: var(--text) !important;
+    opacity: 1;
+}
+.form-control::placeholder {
+    color: var(--text) !important;
+}
+
+/* Form control */
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem var(--pink) !important;
+    border-color: var(--pink) !important;
+}
+.form-control {
+    background-color: var(--sec) !important;
 }
