@@ -1,5 +1,4 @@
 <% layout("layouts/boilerplate") -%>
-
     <body>
         <h3 class=" texts mart">All Listings</h3>
         <!-- <form method="get" action="/listings/new">
@@ -8,11 +7,11 @@
 
 <div class="row row-col-lg-3 row-col-md-3 row-col-sm-1">
     <% for(let listing of allListing ) { %>
-        <a href="listings/<%= listing._id %>" class="listing-link col-12 col-md-6 col-lg-4 texts" style="margin: 0 0 0 0;">
-            <div class="card card-listings bg">
-                <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.image.filename %>" style="height: 20rem;">
+        <a href="listings/<%= listing._id %>" class="listing-link col-12 col-md-6 col-lg-4 texts" style="margin: 0 0 0 0;" title="<%= listing.title %>">
+            <div class="card card-listings bg listing-card">
+                <img src="<%= listing.image.url %>" class="card-img-top skeleton skeleton-img" alt="<%= listing.image.filename %>" style="height: 20rem;">
                 <div class="card-img-overlay"></div>
-                <div class="card-body">
+                <div class="card-body card-body-listing">
                     <p class="card-text  texts">
                         <b><%= listing.title %></b>
                         <br>

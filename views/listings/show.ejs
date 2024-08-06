@@ -1,16 +1,45 @@
 <% layout("layouts/boilerplate") -%>
 
+    <style>
+        .full-screen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .full-screen-image {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .full-screen-overlay.active {
+            display: flex;
+        }
+    </style>
+
     <body>
         <div class="row">
             <div class="col-10 col-sm-12 col-md-12 col-lg-8 bg">
-                <h3 class="texts mart"><%= listing.title %></h3>
-                <div class="card col-12 bg">
-                    <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
-                    <div class="card-body show-info">
+                <h3 class="texts mart">
+                    <%= listing.title %>
+                </h3>
+                <div class="card listing-card col-12 bg">
+                    <img src="<%= listing.image.url %>" class="card-img-top show-img skeleton skeleton-img" alt="listing_image">
+                    <div class="card-body card-body-listing show-info">
+                        <%  let owner = listing.owner %>
+                        <p class="texts"> Owned By <%= owner.username %> </p>
                         <p class="card-text texts"><b>
                                 <%= listing.title %>
                             </b>
                             <br>
+
                             <%= listing.description %>
                                 <br>
                                 &#8377; <%= listing.price.toLocaleString("en-IN") %>
@@ -21,13 +50,82 @@
                         </p>
                     </div>
                 </div>
-                <div class="btns">
-                    <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark edit-btn">Edit</a>
-                    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-                        <button class="btn btn-dark col-12 offset-2 del-btn">Delete</button>
+                <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
+                    <div class="btns">
+                        <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark edit-btn">Edit</a>
+                        <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+                            <button class="btn btn-dark col-12 offset-2 del-btn">Delete</button>
+                        </form>
+                    </div>
+                <% } %>
+                <hr>
+                <div>
+                    <h4 class="texts">Leave a review</h4>
+                    <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="mb-3 needs-validation">
+                        <div class="mb-3 mt-3">
+                            <label for="rating" class="texts form-label">Rating</label>
+                            <input type="range" min="1" max="5" id="rating" class="form-range" name="review[rating]">
+                        </div>
+                        <div class="mb-3">
+                            <label for="comment" class="texts form-label">Comment</label>
+                            <textarea name="review[comment]" id="comment" class="form-control" cols="30" rows="5" required></textarea>
+                            <div class="invalid-feedback">Enter Valid Comment</div>
+                        </div>
+                        <button class="btn btn-dark del-btn">Submit</button>
                     </form>
+                    <hr>
+                    <h4 class="texts">All Reviews</h4>
+                    <div class="row">
+                        <% for(review of listing.reviews) { %>
+                            <div class="card col-12 col-md-5" style="padding: 0 !important; margin:10px;">
+                                <div class="card-body secbg" style="border-radius: 6px;">
+                                    <h5 class="card-title texts">Akshat</h5>
+                                    <p class="card-text texts"><%= review.comment %></p>
+                                    <p class="card-text texts"><%= review.rating %> Stars</p>
+                                    <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                                        <button class="btn btn-dark del-btn">Delete</button>
+                                    </form>
+                                  </div>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
-                <br><br>
             </div>
         </div>
+        <!-- Full-Screen Image Overlay -->
+        <div id="fullScreenOverlay" class="full-screen-overlay">
+            <img id="fullScreenImage" class="full-screen-image" src="" alt="Full screen image">
+        </div>
+
+        <script>
+            // Get the elements
+            const fullScreenOverlay = document.getElementById('fullScreenOverlay');
+            const fullScreenImage = document.getElementById('fullScreenImage');
+
+            // Function to show the full-screen image
+            function showFullScreenImage(src) {
+                fullScreenImage.src = src;
+                fullScreenOverlay.classList.add('active');
+            }
+
+            // Function to hide the full-screen image
+            function hideFullScreenImage() {
+                fullScreenOverlay.classList.remove('active');
+                fullScreenImage.src = '';
+            }
+
+            // Add event listeners to images with class 'show-img'
+            document.querySelectorAll('.show-img').forEach(img => {
+                img.addEventListener('click', () => {
+                    showFullScreenImage(img.src);
+                });
+            });
+
+            // Add event listener to the overlay to hide the image when clicking outside
+            fullScreenOverlay.addEventListener('click', (e) => {
+                if (e.target !== fullScreenImage) {
+                    hideFullScreenImage();
+                }
+            });
+        </script>
     </body>
