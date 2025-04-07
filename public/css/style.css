@@ -11,9 +11,9 @@
 }
 
 .brightmd {
-    --bg: #ffffff;
+    --bg: rgb(241, 241, 255);
     --text: #282828;
-    --sec: #ffffff;
+    --sec: lavender;
     --bg-color: var(--bg-color-light);
     --card-bg: var(--card-bg-light);
     --skeleton-base: var(--skeleton-base-light);

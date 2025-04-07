@@ -1,4 +1,5 @@
 const Listing = require("./models/listings.js");
+const reviewSchema = require("./models/review.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
     if(!req.isAuthenticated()) {
